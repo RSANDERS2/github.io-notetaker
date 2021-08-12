@@ -2,15 +2,16 @@ const express = require('express');
 
 const app = express();
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.use(express.json());
+
 app.use(express.urlencoded({ extend: true }));
+app.use(express.json());
 app.use(express.static('./public'));
 
-require('./routes/api')(app);
-require('./routes/html')(app);
+require('./routes/api.js')(app);
+require('./routes/html.js')(app);
 
 app.listen(PORT, function() {
-    console.log(`Express server listening on port ${PORT}`)
+    console.log(`Express server listening on http://localhost:${PORT}`)
 })
