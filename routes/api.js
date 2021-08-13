@@ -37,25 +37,5 @@ module.exports = function(app) {
     });    
 
 //API DELETE  
-    app.delete('/api/notes/:id', function(req, res) {
-        const deleteNote = req.params.id;
-    
 
-        fs.readFile('./db/db.json', (err, data) => {
-            if (err) throw err; 
-            Data = JSON.parse(data);
-
-            for(let r = 0; r < Data.length; r++) {
-                if (Data[r].id === num(deleteNote)) {
-                Data.splice([r], 1);
-                }
-            }
-            stringData = JSON.stringify(Data);
-
-            fs.writeFile('./db/db.json', stringData, (err, data) => {
-                if(err) throw err;
-            });
-        });
-        res.send('note deleted');
-    });
 };
