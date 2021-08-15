@@ -1,5 +1,8 @@
 const fs = require('fs');
 
+const { v4: uuidv4 } = require('uuid');
+uuidv4();
+
 module.exports = function(app) {
 
 //API GET
@@ -22,8 +25,8 @@ module.exports = function(app) {
 
             let num = 1;
             Data.forEach(num =>  {
-                Data.id = num;
-                num++;
+                Data.id = Number;
+                Number++;
                 return Data;
             });
 
@@ -38,4 +41,24 @@ module.exports = function(app) {
 
 //API DELETE  
 
+    app.delete('api/notes/:id', function (req, res) {
+        const deleteNote = req.params.id;
+
+        fs.readFile('./db/db.json', (err, data) => {
+            if (err) throw err;
+            Data = JSON.parse(data);
+
+            for (let r = 0; r < Data.length; r++) {
+                if(Data[r].id === Number(deleteNote)) {
+                    Data.splice([r], 1);
+                }
+            }
+            stringData = JSON.stringify(Data);
+
+            fs.writeFile('./db/db.json', stringData, (err, data) => {
+                if(err) throw err;
+            });
+        });   
+        res.send('note deleted');
+    });     
 };
