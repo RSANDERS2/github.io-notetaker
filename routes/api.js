@@ -25,8 +25,8 @@ module.exports = function(app) {
 
             let num = 1;
             Data.forEach(num =>  {
-                Data.id = Number;
-                Number++;
+                Data.id = num;
+                num++;
                 return Data;
             });
 
