@@ -17,11 +17,15 @@ module.exports = function(app) {
 //API POST
     app.post('/api/notes', function(req, res) {
         const noteText = req.body;
+        noteText.id = uuidv4();
+        const addID = {
+            ...req.body, id: uuidv4()
+        }
 
         fs.readFile('./db/db.json', (err, data) => {
             if (err) throw err;
             Data = JSON.parse(data);
-            Data.push(noteText);
+            Data.push(addID);
 
             let num = 1;
             Data.forEach(num =>  {
@@ -36,21 +40,26 @@ module.exports = function(app) {
                 if(err) throw err;
             });
         });
-        res.send('note submitted')
+        res.send(Data)
     });    
 
 //API DELETE  
 
     app.delete('api/notes/:id', function (req, res) {
         const deleteNote = req.params.id;
+        console.log(deleteNote);
+
+        const newNote = db.JSON.filter(note => note.id !== deleteNote);
+
+        db.JSON = newNote;
 
         fs.readFile('./db/db.json', (err, data) => {
             if (err) throw err;
             Data = JSON.parse(data);
 
             for (let r = 0; r < Data.length; r++) {
-                if(Data[r].id === Number(deleteNote)) {
-                    Data.splice([r], 1);
+                if(Data[r].id === number(deleteNote)) {
+                    Data.splice(r, 1);
                 }
             }
             stringData = JSON.stringify(Data);
@@ -59,6 +68,7 @@ module.exports = function(app) {
                 if(err) throw err;
             });
         });   
-        res.send('note deleted');
+        res.send(Data);
     });     
 };
+
